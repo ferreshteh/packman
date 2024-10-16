@@ -65,8 +65,8 @@ def depthFirstSearch(problem):
              return
          for node in problem.getSuccessors(current):
             DFS(node[0], actions+[node[1]], depth+1)
-            #if len(answer) > 0:
-            #    return
+            if len(answer) > 0:
+                return
      startState = problem.getStartState()
      DFS(startState, [], 0)
      util.raiseNotDefined()
