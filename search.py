@@ -55,29 +55,21 @@ class SearchProblem:
 
 
 def depthFirstSearch(problem):
-
-    from collections import Stack
-
-    # Create a stack to hold the nodes to be visited
-    stack = Stack()
-    visited = set()
-    state=problem.getStartState()
-    stack.push(state,[])
-
-while stack:
-   inner_state , inner_path= stack.pop()
-   if inner_state not in visited :
-    visited.add(inner_state)
-    successors= problem.getSuccessors(inner_state)
-    for successor, action, cost in successors:
-            if successor in visited:
-                continue
-            else:
-                visited.add(successor)
-                stack.push(successor,inner_path+action)
-
-
-
+     global answer
+     answer=[]
+     def DFS(current, actions, depth):
+         if problem.isGoalState(current):
+             answer = actions
+             return
+         if depth > 40:
+             return
+         for node in problem.getSuccessors(current):
+            DFS(node[0], actions+[node[1]], depth+1)
+            #if len(answer) > 0:
+            #    return
+     startState = problem.getStartState()
+     DFS(startState, [], 0)
+     util.raiseNotDefined()
 
 
 def breadthFirstSearch(problem):
