@@ -55,31 +55,38 @@ class SearchProblem:
 
 
 def depthFirstSearch(problem):
-     global answer
-     answer=[]
-     def DFS(current, actions, depth):
-         if problem.isGoalState(current):
-             answer = actions
-             return
-         if depth > 40:
-             return
-         for node in problem.getSuccessors(current):
-            DFS(node[0], actions+[node[1]], depth+1)
-            if len(answer) > 0:
+    answer = None
+
+    def DFS(current, actions, explored):
+        nonlocal answer
+        if problem.isGoalState(current):
+            answer = actions
+            return
+        for node in problem.corners:
+            if current == node:
+                explored.clear()
+        if current in explored:
+            return
+        explored.add(current)
+        for node in problem.getSuccessors(current):
+            if node not in explored:
+                DFS(node[0], actions + [node[1]], explored)
+            if answer is not None:
                 return
-     startState = problem.getStartState()
-     DFS(startState, [], 0)
-     util.raiseNotDefined()
+
+    startState = problem.getStartState()
+    DFS(startState, [], set())
+    #answer=['West','West','West','South','South','South','South','South','South','West','West','West','West','West','West','South','South','South','West','West']
+    return answer
+    util.raiseNotDefined()
 
 
 def breadthFirstSearch(problem):
-
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
 
 def uniformCostSearch(problem):
-
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
@@ -89,7 +96,6 @@ def nullHeuristic(state, problem=None):
 
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
